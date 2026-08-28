@@ -1,0 +1,51 @@
+version: "v0.2"
+
+project:
+  name: "lean-malliavin"
+  authors:
+    - "Ezzeri Esa"
+  license: "Apache-2.0"
+
+sources:
+  - title: "lean-clark-ocone (source library)"
+    authors: ["Ezzeri Esa"]
+    id: "lean-clark-ocone"
+    type: "lean4"
+    license: "Apache-2.0"
+    prior_work: "Downstream of Mathlib v4.33.0"
+
+automation:
+  method: "AI-assisted"
+  models: ["Claude (Anthropic)"]
+  framework: "Claude Code"
+  notes: >
+    Challenge.lean authored with AI assistance. Proof development traced from
+    lean-clark-ocone, a 58-file Lean 4 library formalizing the Clark-Ocone
+    formula. Three files extracted for this submission.
+
+status:
+  scope: >
+    Closability of the Malliavin derivative on an abstract Gaussian Banach
+    space: if smooth bounded functionals converge to zero in L^2 and their
+    Malliavin derivatives converge in L^2(H), the limit derivative is zero.
+    One compared theorem, no definition holes.
+  sorry_count: 1
+  sorry_in_definitions: 0
+  axioms:
+    - "propext"
+    - "Classical.choice"
+    - "Quot.sound"
+  main_results:
+    - "mderiv_closable"
+
+fidelity:
+  divergences: >
+    Both Challenge.lean and Solution.lean import the same Malliavin library,
+    ensuring identical elaboration. No definition_names or definition holes
+    are used. The compared theorem type is structurally equal across both
+    modules by construction.
+
+review:
+  status: "self-reviewed"
+  reviewers:
+    - "Ezzeri Esa"
