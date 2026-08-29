@@ -2,5 +2,7 @@
   "challenge_module": "Challenge",
   "solution_module": "Solution",
   "theorem_names": ["integral_inner_mderiv", "mderiv_closable"],
-  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
 }
