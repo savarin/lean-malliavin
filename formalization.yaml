@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
 version: "v0.4"
 
 project:
@@ -26,6 +27,7 @@ sources:
     id: "10.1007/3-540-28329-3"
     location: "Chapter 1, §1.2"
     relationship: "adapts"
+    author_endorsement: "not-contacted"
     note: >-
       integral_inner_mderiv adapts Lemma 1.2.1, equation (1.30).
       mderiv_closable adapts Proposition 1.2.1.
@@ -63,9 +65,13 @@ status:
 automation:
   methods:
     - method: "agent"
-      models: ["Claude (Anthropic)"]
+      models: ["Claude Fable (Anthropic)", "GPT 5.6 Sol (OpenAI)"]
       framework: "Claude Code"
       tool_setup: "Claude Code CLI with multi-agent formalization sessions"
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
   notes: >-
     Challenge statement authored with AI assistance. Proof library
     developed as a standalone Lean 4 formalization of the Malliavin
@@ -90,3 +96,22 @@ review:
     conclusion correctly rejected). Axiom audit for both theorems: propext,
     Classical.choice, Quot.sound only. Palomar injects its own protected
     NanoDa configuration at submission time.
+
+alignment:
+  statements:
+    - source: "Nualart, Lemma 1.2.1, equation (1.30)"
+      lean: "integral_inner_mderiv"
+      module: "Solution"
+      status: "proved"
+      note: >-
+        Specialized to p = 2 on an abstract Gaussian Banach space with a
+        bounded-C¹ core (IsSmoothBounded).
+    - source: "Nualart, Proposition 1.2.1"
+      lean: "mderiv_closable"
+      module: "Solution"
+      status: "proved"
+      note: >-
+        Specialized to p = 2 on an abstract Gaussian Banach space with a
+        bounded-C¹ core (IsSmoothBounded).
+
+acknowledgements: "Mathlib contributors; leanprover/comparator maintainers"
