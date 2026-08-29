@@ -210,6 +210,9 @@ theorem integral_inner_mderiv
     ∫ x, ⟪mderiv μ F x, h⟫_ℝ ∂μ =
       ∫ x, F x * (h : Lp ℝ 2 μ) x ∂μ := sorry
 
+/-- Closability of the Malliavin derivative: if smooth bounded functionals
+converge to zero in L² and their Malliavin derivatives converge in L²(H),
+the limit derivative is zero. -/
 theorem mderiv_closable
     {W : Type*} [NormedAddCommGroup W] [NormedSpace ℝ W]
     [CompleteSpace W] [MeasurableSpace W] [BorelSpace W]

@@ -5,7 +5,7 @@ project:
   description: >-
     Gaussian integration by parts and closability of the Malliavin derivative
     on an abstract Gaussian Banach space. Two compared theorems, zero
-    definition holes. Challenge.lean (217 lines) states both results using
+    definition holes. Challenge.lean (225 lines) states both results using
     only Mathlib definitions; Solution.lean bridges via definitional equality
     to the extracted Malliavin proof library.
   authors:

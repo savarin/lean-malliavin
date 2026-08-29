@@ -24,9 +24,20 @@ Related Topics* (2nd ed., Springer,
 [doi:10.1007/3-540-28329-3](https://doi.org/10.1007/3-540-28329-3)) to an
 abstract Gaussian Banach space with a bounded-C¹ core.
 
+## Research interest
+
+Closability of the Malliavin derivative (Nualart, Proposition 1.2.1) is the
+foundational estimate that enables extension of the derivative operator from
+smooth test functionals to the Sobolev space D^{1,2}. Every subsequent result
+in Malliavin calculus — the Clark-Ocone representation, Stroock's formula,
+density estimates via the divergence operator — depends on this closure. To our
+knowledge this is the first machine-checked formalization of these estimates.
+The audience is researchers in stochastic analysis and the formalization
+community working on probability theory in Lean/Mathlib.
+
 ## Trust boundary
 
-- **Challenge.lean** (217 lines) imports only Mathlib. Every definition
+- **Challenge.lean** (225 lines) imports only Mathlib. Every definition
   needed by the theorem statements is given explicitly from Mathlib — there
   are zero definition holes. Only the two advertised theorem proofs are
   omitted (`sorry`).
@@ -37,7 +48,7 @@ abstract Gaussian Banach space with a bounded-C¹ core.
 - **comparator.json** lists two theorems and no definition holes.
 
 A mathematical reader can audit both statements by reading Challenge.lean
-alone (217 lines, Mathlib-only imports).
+alone (225 lines, Mathlib-only imports).
 
 ## Provenance
 
