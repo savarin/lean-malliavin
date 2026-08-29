@@ -7,12 +7,33 @@ cited only as pointers back to the source.
 
 ## Target
 
-One theorem: `mderiv_closable` (closability of the Malliavin derivative).
+Two theorems:
 
-If `Fₖ` are smooth bounded functionals with `Fₖ → 0` in `L²(μ)` and
-`DFₖ → η` in `L²(μ; H)`, then `η = 0`. This establishes that the
-Malliavin derivative has a well-defined closed extension whose domain is
-the Sobolev space `𝔻₁,₂`.
+1. `integral_inner_mderiv` — Gaussian integration by parts.
+2. `mderiv_closable` — closability of the Malliavin derivative.
+
+Together these form a coherent foundational Malliavin-calculus result: the
+integration-by-parts formula supplies the adjoint relation, and the adjoint
+relation yields closability.
+
+## Explicit boundary
+
+Challenge.lean constructs all statement-level mathematics directly from
+Mathlib:
+
+- the Cameron–Martin space as a closed first-chaos submodule;
+- the centered identity in L²;
+- the covariance map and Cameron–Martin inclusion;
+- completeness of the Cameron–Martin space;
+- the Riesz-represented Malliavin derivative;
+- `IsSmoothBounded` (bounded C¹ core);
+- integrability results (`memLp`, `memLp_mderiv`);
+- `IsSmoothBounded.toLp` and `IsSmoothBounded.mderivLp`.
+
+There are no definition holes. Solution.lean repeats the same declarations
+and imports the extracted `Malliavin` proof library. The repeated objects are
+definitionally equal to the library objects, so the two completed library
+theorems close the Solution goals without bridging definitions.
 
 ## Proof architecture
 
@@ -42,7 +63,14 @@ formal adjoint.
 `F`, the Malliavin derivative at `x` is the Cameron–Martin vector
 representing `h ↦ fderiv ℝ F x (inclusion μ h)` via Riesz. The structure
 `IsSmoothBounded` collects `C¹` regularity with uniform bounds on `F` and
-its derivative. The closability proof proceeds by:
+its derivative.
+
+The **integration by parts** proof (`integral_inner_mderiv`) uses the
+adjoint identity from Layer 2 directly: for any smooth bounded `G` and
+Cameron–Martin direction `h`, the Malliavin inner product equals pairing
+against the first-chaos representative.
+
+The **closability** proof (`mderiv_closable`) proceeds by:
 
 1. **Adjoint relation.** From the integration by parts formula (Layer 2),
    for any smooth bounded `G` and Cameron–Martin direction `h`:
@@ -60,15 +88,3 @@ its derivative. The closability proof proceeds by:
 3. **Application.** `mderiv_closable` instantiates this with `T = mderivLp`,
    the simple vectors as the total family, and the adjoint relation from
    step 1.
-
-## Definition holes
-
-Challenge.lean imports only Mathlib (per Palomar §2.4) and defines three
-sorry-bodied stubs: `CameronMartin.Space`, `IsSmoothBounded.toLp`, and
-`IsSmoothBounded.mderivLp`. Solution.lean imports the Malliavin proof
-library and fills these with real implementations.
-
-All three definitions use explicit binder lists (not section `variable`
-blocks) to guarantee identical type signatures across the two elaboration
-contexts. The comparator checks definition types — not bodies — and the
-theorem type, which references all three holes.

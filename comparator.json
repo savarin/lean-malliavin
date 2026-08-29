@@ -1,11 +1,6 @@
 {
   "challenge_module": "Challenge",
   "solution_module": "Solution",
-  "theorem_names": ["mderiv_closable"],
-  "definition_names": [
-    "CameronMartin.Space",
-    "IsSmoothBounded.toLp",
-    "IsSmoothBounded.mderivLp"
-  ],
+  "theorem_names": ["integral_inner_mderiv", "mderiv_closable"],
   "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
 }

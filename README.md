@@ -1,38 +1,51 @@
 # lean-malliavin
 
-Closability of the Malliavin derivative on an abstract Gaussian Banach space,
-formalized in Lean 4 against Mathlib. Prepared for submission to
-[Palomar](https://palomar-registry.org).
+Gaussian integration by parts and closability of the Malliavin derivative on
+an abstract Gaussian Banach space, formalized in Lean 4 against Mathlib.
+Prepared for submission to [Palomar](https://palomar-registry.org).
 
-## The theorem
+## The theorems
 
-If smooth bounded functionals converge to zero in L² and their Malliavin
-derivatives converge in L²(H), the limit derivative is zero. This is the
-foundational estimate that makes the Malliavin derivative a closable operator,
-enabling its extension from smooth test functionals to the Sobolev space
-D^{1,2}. It adapts Proposition 1.2.1 in Nualart's *The Malliavin
-Calculus and Related Topics* (2nd ed., Springer, doi:10.1007/3-540-28329-3)
-to an abstract Gaussian Banach space with a bounded-C¹ core.
+Two results form the Malliavin core:
+
+**Gaussian integration by parts** (`integral_inner_mderiv`). For a smooth
+bounded functional `F` and Cameron–Martin vector `h`:
+`∫ ⟪DF, h⟫ dμ = ∫ F · h dμ`. This identity exposes the formal adjoint
+relation that drives the closability proof.
+
+**Closability** (`mderiv_closable`). If smooth bounded functionals converge
+to zero in L² and their Malliavin derivatives converge in L²(H), the limit
+derivative is zero. This is the foundational estimate that makes the
+Malliavin derivative a closable operator, enabling its extension from smooth
+test functionals to the Sobolev space D^{1,2}.
+
+Both results adapt Chapter 1, §1.2 of Nualart's *The Malliavin Calculus and
+Related Topics* (2nd ed., Springer,
+[doi:10.1007/3-540-28329-3](https://doi.org/10.1007/3-540-28329-3)) to an
+abstract Gaussian Banach space with a bounded-C¹ core.
+
+## Trust boundary
+
+- **Challenge.lean** (217 lines) imports only Mathlib. Every definition
+  needed by the theorem statements is given explicitly from Mathlib — there
+  are zero definition holes. Only the two advertised theorem proofs are
+  omitted (`sorry`).
+- **Solution.lean** repeats the same declaration block and imports the full
+  `Malliavin` proof library. The repeated objects are definitionally equal
+  to the library objects, so the two completed library theorems close the
+  Solution goals.
+- **comparator.json** lists two theorems and no definition holes.
+
+A mathematical reader can audit both statements by reading Challenge.lean
+alone (217 lines, Mathlib-only imports).
 
 ## Provenance
 
 The proof library (`Malliavin/`) is extracted from
 [lean-clark-ocone](https://github.com/savarin/lean-clark-ocone) at commit
-`41d3f1509bc8f5c58ff3f17a4d9121ef4c3bb8a4`. Three files (CameronMartin, CameronMartinTheorem,
-MalliavinDerivative) form the dependency chain for the closability result.
-
-## Trust boundary
-
-- **Challenge.lean** imports only Mathlib. It defines sorry-bodied stubs for
-  `CameronMartin.Space`, `IsSmoothBounded.toLp`, and
-  `IsSmoothBounded.mderivLp`, then states `mderiv_closable` with proof
-  `sorry`.
-- **Solution.lean** imports the full `Malliavin` library. It fills in the
-  three definition holes and proves `mderiv_closable`.
-- **comparator.json** lists one theorem and three definition holes.
-
-A mathematical reader can audit the statement by reading Challenge.lean alone
-(~75 lines, Mathlib-only imports).
+`41d3f1509bc8f5c58ff3f17a4d9121ef4c3bb8a4`. Three files (CameronMartin,
+CameronMartinTheorem, MalliavinDerivative) form the dependency chain for
+both results.
 
 ## Build and verify
 
@@ -63,6 +76,8 @@ its own protected NanoDa configuration at submission time.
 ### Negative control
 
 ```bash
+export COMPARATOR=/path/to/comparator
+export LEAN4EXPORT=/path/to/lean4export
 scripts/negative_control.sh
 ```
 

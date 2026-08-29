@@ -3,13 +3,11 @@ version: "v0.4"
 project:
   name: "lean-malliavin"
   description: >-
-    Closability of the Malliavin derivative on an abstract Gaussian Banach space.
-    If smooth bounded functionals converge to zero in L² and their Malliavin
-    derivatives converge in L²(H), the limit derivative is zero. This is the
-    foundational estimate that makes the Malliavin derivative a closable operator,
-    enabling its extension from smooth test functionals to the Sobolev space D^{1,2}.
-    Formalized in Lean 4 against Mathlib, extracted from a larger Clark–Ocone
-    development (lean-clark-ocone). One compared theorem, three definition holes.
+    Gaussian integration by parts and closability of the Malliavin derivative
+    on an abstract Gaussian Banach space. Two compared theorems, zero
+    definition holes. Challenge.lean (217 lines) states both results using
+    only Mathlib definitions; Solution.lean bridges via definitional equality
+    to the extracted Malliavin proof library.
   authors:
     - "Ezzeri Esa"
   responsible_maintainers:
@@ -29,10 +27,11 @@ sources:
     location: "Chapter 1, §1.2, Proposition 1.2.1"
     relationship: "adapts"
     note: >-
-      The Lean result specializes Nualart's Proposition 1.2.1 to p = 2, an
+      The Lean results specialize Nualart's Proposition 1.2.1 to p = 2, an
       abstract Gaussian Banach space (rather than classical Wiener space), and
       a bounded-C¹ core (IsSmoothBounded) instead of the full smooth cylinder
-      functional class.
+      functional class. The integration by parts formula is from Theorem 1.3.1
+      (specialized to first-order and p = 2).
 
 related_formalizations:
   - id: "https://github.com/savarin/lean-clark-ocone"
@@ -44,10 +43,11 @@ related_formalizations:
 
 status:
   scope: >-
-    One compared theorem (mderiv_closable), three definition holes
-    (CameronMartin.Space, IsSmoothBounded.toLp, IsSmoothBounded.mderivLp).
-    Challenge.lean imports only Mathlib; Solution.lean fills the definition
-    holes and proves the theorem via the extracted Malliavin proof library.
+    Two compared theorems (integral_inner_mderiv, mderiv_closable), zero
+    definition holes. Challenge.lean imports only Mathlib and constructs all
+    statement-level mathematics explicitly. Solution.lean repeats the
+    declaration block and proves both theorems via definitional equality with
+    the extracted Malliavin library.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms:
@@ -55,6 +55,11 @@ status:
     - "Classical.choice"
     - "Quot.sound"
   main_results:
+    - declaration: "integral_inner_mderiv"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
     - declaration: "mderiv_closable"
       file: "Solution.lean"
       sorry_count: 0
@@ -86,8 +91,9 @@ review:
   reviewers:
     - "Ezzeri Esa"
   notes: >-
-    Comparator-verified locally against upstream leanprover/comparator at
-    8d84e67 using Lean's default kernel (not NanoDa). Negative control
-    confirmed (mutated conclusion correctly rejected). Axiom audit: propext,
+    Two-theorem Comparator-verified locally against upstream
+    leanprover/comparator at 8d84e67 using Lean's default kernel (not
+    NanoDa). Negative control confirmed for both theorems (mutated
+    conclusions correctly rejected). Axiom audit for both theorems: propext,
     Classical.choice, Quot.sound only. Palomar injects its own protected
     NanoDa configuration at submission time.
