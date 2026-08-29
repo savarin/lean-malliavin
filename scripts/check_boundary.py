@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Boundary check: signatures elaborate and axioms are clean.
+"""Smoke check: both modules elaborate and axioms are in the permitted set.
+
+Does NOT verify type-signature equality or inspect the transitive import
+boundary. For type-signature verification, use the comparator. For import
+boundary verification, inspect Challenge.lean's import list manually (it
+must contain only Lean core, Mathlib, TauCeti, or CSLib per Palomar §2.4).
 
 Adapted from the formalization starter kit's check_boundary.py.
 """
@@ -32,25 +37,40 @@ def main():
     m = json.loads(manifest.read_text())
 
     challenge = pathlib.Path(f"{m['challenge_module']}.lean")
-    modules = [m["solution_module"]]
+    solution = pathlib.Path(f"{m['solution_module']}.lean")
     theorems = m["theorem_names"]
+    definitions = m.get("definition_names", [])
     permitted = set(m["permitted_axioms"])
 
     print("=== Boundary check ===")
+
+    # Step 1: Elaborate Challenge
     if not challenge.is_file():
         fail(f"{challenge} not found")
-
-    print(f"[1/2] Elaborating {challenge} ...")
+    print(f"[1/3] Elaborating {challenge} ...")
     code, out = run_lean(challenge)
     if code != 0:
         print(out.rstrip())
-        fail("challenge file does not elaborate — a signature changed")
-    print("  PASS: signatures match")
+        fail("Challenge does not elaborate")
+    print("  PASS: Challenge elaborates")
 
-    print("[2/2] Auditing axioms ...")
+    # Step 2: Elaborate Solution
+    if not solution.is_file():
+        fail(f"{solution} not found")
+    print(f"[2/3] Elaborating {solution} ...")
+    code, out = run_lean(solution)
+    if code != 0:
+        print(out.rstrip())
+        fail("Solution does not elaborate")
+    print("  PASS: Solution elaborates")
+
+    # Step 3: Axiom audit (via Solution's imports)
+    print("[3/3] Auditing axioms ...")
     scratch = pathlib.Path("_axiom_check.lean")
-    scratch.write_text("".join(f"import {mod}\n" for mod in modules)
-                       + "".join(f"#print axioms {t}\n" for t in theorems))
+    all_names = theorems + definitions
+    scratch.write_text(
+        f"import {m['solution_module']}\n"
+        + "".join(f"#print axioms {t}\n" for t in all_names))
     try:
         code, out = run_lean(scratch)
     finally:
@@ -79,7 +99,7 @@ def main():
             seen[mo.group(1)] = set()
 
     bad = False
-    for t in theorems:
+    for t in all_names:
         if t not in seen:
             print(f"  FAIL: no axiom report for {t}")
             bad = True

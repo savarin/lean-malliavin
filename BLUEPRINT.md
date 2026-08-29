@@ -61,10 +61,14 @@ its derivative. The closability proof proceeds by:
    the simple vectors as the total family, and the adjoint relation from
    step 1.
 
-## No definition holes
+## Definition holes
 
-Unlike the full Clark–Ocone submission, `mderiv_closable` requires no
-`definition_names` in `comparator.json`. Both Challenge and Solution import
-the same Malliavin library, so all types elaborate identically. The
-comparator checks structural equality of the single theorem and its
-transitive dependencies without any bypasses.
+Challenge.lean imports only Mathlib (per Palomar §2.4) and defines three
+sorry-bodied stubs: `CameronMartin.Space`, `IsSmoothBounded.toLp`, and
+`IsSmoothBounded.mderivLp`. Solution.lean imports the Malliavin proof
+library and fills these with real implementations.
+
+All three definitions use explicit binder lists (not section `variable`
+blocks) to guarantee identical type signatures across the two elaboration
+contexts. The comparator checks definition types — not bodies — and the
+theorem type, which references all three holes.

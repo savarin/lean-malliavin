@@ -1,51 +1,93 @@
-version: "v0.2"
+version: "v0.4"
 
 project:
   name: "lean-malliavin"
+  description: >-
+    Closability of the Malliavin derivative on an abstract Gaussian Banach space.
+    If smooth bounded functionals converge to zero in L² and their Malliavin
+    derivatives converge in L²(H), the limit derivative is zero. This is the
+    foundational estimate that makes the Malliavin derivative a closable operator,
+    enabling its extension from smooth test functionals to the Sobolev space D^{1,2}.
+    Formalized in Lean 4 against Mathlib, extracted from a larger Clark–Ocone
+    development (lean-clark-ocone). One compared theorem, three definition holes.
   authors:
+    - "Ezzeri Esa"
+  responsible_maintainers:
     - "Ezzeri Esa"
   license: "Apache-2.0"
 
-sources:
-  - title: "lean-clark-ocone (source library)"
-    authors: ["Ezzeri Esa"]
-    id: "lean-clark-ocone"
-    type: "lean4"
-    license: "Apache-2.0"
-    prior_work: "Downstream of Mathlib v4.33.0"
+classification:
+  arxiv: ["math.PR", "math.FA"]
+  msc2020: ["60H07", "46E35"]
 
-automation:
-  method: "AI-assisted"
-  models: ["Claude (Anthropic)"]
-  framework: "Claude Code"
-  notes: >
-    Challenge.lean authored with AI assistance. Proof development traced from
-    lean-clark-ocone, a 58-file Lean 4 library formalizing the Clark-Ocone
-    formula. Three files extracted for this submission.
+sources:
+  - title: "The Malliavin Calculus and Related Topics"
+    authors:
+      - "David Nualart"
+    type: "book"
+    id: "10.1007/3-540-28329-3"
+    location: "Chapter 1, §1.2, Proposition 1.2.1"
+    relationship: "adapts"
+    note: >-
+      The Lean result specializes Nualart's Proposition 1.2.1 to p = 2, an
+      abstract Gaussian Banach space (rather than classical Wiener space), and
+      a bounded-C¹ core (IsSmoothBounded) instead of the full smooth cylinder
+      functional class.
+
+related_formalizations:
+  - id: "https://github.com/savarin/lean-clark-ocone"
+    relationship: "builds-on"
+    note: >-
+      Three proof-library files (CameronMartin.lean, CameronMartinTheorem.lean,
+      MalliavinDerivative.lean) extracted at commit
+      41d3f1509bc8f5c58ff3f17a4d9121ef4c3bb8a4.
 
 status:
-  scope: >
-    Closability of the Malliavin derivative on an abstract Gaussian Banach
-    space: if smooth bounded functionals converge to zero in L^2 and their
-    Malliavin derivatives converge in L^2(H), the limit derivative is zero.
-    One compared theorem, no definition holes.
-  sorry_count: 1
+  scope: >-
+    One compared theorem (mderiv_closable), three definition holes
+    (CameronMartin.Space, IsSmoothBounded.toLp, IsSmoothBounded.mderivLp).
+    Challenge.lean imports only Mathlib; Solution.lean fills the definition
+    holes and proves the theorem via the extracted Malliavin proof library.
+  sorry_count: 0
   sorry_in_definitions: 0
   axioms:
     - "propext"
     - "Classical.choice"
     - "Quot.sound"
   main_results:
-    - "mderiv_closable"
+    - declaration: "mderiv_closable"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude (Anthropic)"]
+      framework: "Claude Code"
+      tool_setup: "Claude Code CLI with multi-agent formalization sessions"
+  notes: >-
+    Challenge statement authored with AI assistance. Proof development
+    traced from lean-clark-ocone, a 58-file Lean 4 library formalizing
+    the Clark–Ocone formula. Three source files extracted for this
+    submission.
 
 fidelity:
-  divergences: >
-    Both Challenge.lean and Solution.lean import the same Malliavin library,
-    ensuring identical elaboration. No definition_names or definition holes
-    are used. The compared theorem type is structurally equal across both
-    modules by construction.
+  divergences: >-
+    Nualart proves closability for every p ≥ 1 on smooth cylindrical random
+    variables over an isonormal Gaussian process. This formalization proves
+    the p = 2 criterion on a separable Banach space carrying a Gaussian
+    measure, using bounded C¹ Fréchet functionals with uniformly bounded
+    derivative and realizing the Cameron–Martin space as the first chaos.
 
 review:
-  status: "self-reviewed"
+  status: "self-assessed"
   reviewers:
     - "Ezzeri Esa"
+  notes: >-
+    Comparator-verified locally against upstream leanprover/comparator at
+    8d84e67 using Lean's default kernel (not NanoDa). Negative control
+    confirmed (mutated conclusion correctly rejected). Axiom audit: propext,
+    Classical.choice, Quot.sound only. Palomar injects its own protected
+    NanoDa configuration at submission time.
