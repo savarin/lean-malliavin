@@ -2,7 +2,7 @@
 # Negative control: confirm the comparator rejects a mutated theorem statement.
 #
 # Mutates mderiv_closable's conclusion from `η = 0` to `η = η` (proved by rfl).
-# Operates on a disposable copy — the tracked Solution.lean is never modified.
+# Temporarily overwrites Solution.lean for the mutated build, then restores it.
 # Requires a passing baseline first.
 set -euo pipefail
 cd "$(dirname "$0")/.."

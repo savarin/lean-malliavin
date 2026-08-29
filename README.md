@@ -41,11 +41,9 @@ alone (217 lines, Mathlib-only imports).
 
 ## Provenance
 
-The proof library (`Malliavin/`) is extracted from
-[lean-clark-ocone](https://github.com/savarin/lean-clark-ocone) at commit
-`41d3f1509bc8f5c58ff3f17a4d9121ef4c3bb8a4`. Three files (CameronMartin,
-CameronMartinTheorem, MalliavinDerivative) form the dependency chain for
-both results.
+The proof library (`Malliavin/`) contains three files (CameronMartin,
+CameronMartinTheorem, MalliavinDerivative) forming the dependency chain
+for both results.
 
 ## Build and verify
 

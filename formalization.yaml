@@ -24,22 +24,14 @@ sources:
       - "David Nualart"
     type: "book"
     id: "10.1007/3-540-28329-3"
-    location: "Chapter 1, §1.2, Proposition 1.2.1"
+    location: "Chapter 1, §1.2"
     relationship: "adapts"
     note: >-
-      The Lean results specialize Nualart's Proposition 1.2.1 to p = 2, an
-      abstract Gaussian Banach space (rather than classical Wiener space), and
-      a bounded-C¹ core (IsSmoothBounded) instead of the full smooth cylinder
-      functional class. The integration by parts formula is from Theorem 1.3.1
-      (specialized to first-order and p = 2).
-
-related_formalizations:
-  - id: "https://github.com/savarin/lean-clark-ocone"
-    relationship: "builds-on"
-    note: >-
-      Three proof-library files (CameronMartin.lean, CameronMartinTheorem.lean,
-      MalliavinDerivative.lean) extracted at commit
-      41d3f1509bc8f5c58ff3f17a4d9121ef4c3bb8a4.
+      integral_inner_mderiv adapts Lemma 1.2.1, equation (1.30).
+      mderiv_closable adapts Proposition 1.2.1.
+      Both are specialized to p = 2, an abstract Gaussian Banach space
+      (rather than classical Wiener space), and a bounded-C¹ core
+      (IsSmoothBounded) instead of the full smooth cylinder functional class.
 
 status:
   scope: >-
@@ -73,10 +65,9 @@ automation:
       framework: "Claude Code"
       tool_setup: "Claude Code CLI with multi-agent formalization sessions"
   notes: >-
-    Challenge statement authored with AI assistance. Proof development
-    traced from lean-clark-ocone, a 58-file Lean 4 library formalizing
-    the Clark–Ocone formula. Three source files extracted for this
-    submission.
+    Challenge statement authored with AI assistance. Proof library
+    developed as a standalone Lean 4 formalization of the Malliavin
+    derivative on abstract Gaussian Banach spaces.
 
 fidelity:
   divergences: >-
@@ -93,7 +84,7 @@ review:
   notes: >-
     Two-theorem Comparator-verified locally against upstream
     leanprover/comparator at 8d84e67 using Lean's default kernel (not
-    NanoDa). Negative control confirmed for both theorems (mutated
-    conclusions correctly rejected). Axiom audit for both theorems: propext,
+    NanoDa). Negative control confirmed for mderiv_closable (mutated
+    conclusion correctly rejected). Axiom audit for both theorems: propext,
     Classical.choice, Quot.sound only. Palomar injects its own protected
     NanoDa configuration at submission time.

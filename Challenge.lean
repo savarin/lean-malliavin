@@ -11,16 +11,21 @@ import Mathlib.Probability.Distributions.Gaussian.HasGaussianLaw.Basic
 import Mathlib.Probability.Moments.CovarianceBilinDual
 
 /-!
-# Closability of the Malliavin derivative (Challenge)
+# Malliavin derivative: integration by parts and closability (Challenge)
 
-This module states the closability theorem for the Malliavin derivative on an
-abstract Gaussian Banach space. Every definition needed by the statement is
-given explicitly from Mathlib; only the advertised theorem proof is omitted.
+This module states two theorems for the Malliavin derivative on an abstract
+Gaussian Banach space. Every definition needed by the statements is given
+explicitly from Mathlib; only the advertised theorem proofs are omitted.
 
-## Main result
+## Main results
 
-`mderiv_closable`: if smooth bounded functionals converge to zero in L² and
-their Malliavin derivatives converge in L²(H), the limit derivative is zero.
+* `integral_inner_mderiv`: Gaussian integration by parts — the mean inner
+  product of the Malliavin derivative against a Cameron–Martin vector equals
+  the L² pairing of the functional against that vector's first-chaos
+  representative.
+
+* `mderiv_closable`: if smooth bounded functionals converge to zero in L² and
+  their Malliavin derivatives converge in L²(H), the limit derivative is zero.
 -/
 
 open MeasureTheory ProbabilityTheory Filter Topology
