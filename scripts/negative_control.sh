@@ -29,10 +29,10 @@ echo "  Baseline passes"
 # Step 2: Build a mutated Solution in a temp directory
 echo "[2/3] Building mutated Solution ..."
 WORKDIR=$(mktemp -d "${TMPDIR:-/tmp}/neg-ctrl-XXXXXX")
-trap 'rm -rf "$WORKDIR"' EXIT
 
-# Save original
+# Save original before any mutation
 cp Solution.lean "$WORKDIR/Solution.lean.orig"
+trap 'cp "$WORKDIR/Solution.lean.orig" Solution.lean; rm -rf "$WORKDIR"' EXIT
 
 # Mutate: change mderiv_closable conclusion from `η = 0` to `η = η`
 # and replace the proof term with `rfl`
@@ -45,9 +45,7 @@ cp "$WORKDIR/Solution.lean" Solution.lean
 
 echo "  Mutated: changed mderiv_closable conclusion from η = 0 to η = η"
 if ! lake build Solution 2>&1 | tail -3; then
-  echo "  (mutated build failed — restoring and exiting)"
-  cp "$WORKDIR/Solution.lean.orig" Solution.lean
-  rm -rf .lake/build/lib/lean/Solution.* .lake/build/ir/Solution.*
+  echo "  (mutated build failed — trap restores Solution.lean)"
   exit 1
 fi
 
@@ -56,11 +54,8 @@ echo "[3/3] Running comparator on mutated Solution ..."
 OUTPUT=$(COMPARATOR_LEAN4EXPORT="$LEAN4EXPORT" lake env "$COMPARATOR" comparator.json 2>&1 || true)
 echo "$OUTPUT" | tail -5
 
-# Restore original Solution
-cp "$WORKDIR/Solution.lean.orig" Solution.lean
-rm -rf .lake/build/lib/lean/Solution.* .lake/build/ir/Solution.*
+# Trap restores Solution.lean on exit; rebuild to reset .lake cache
 echo "  Restoring original and rebuilding ..."
-lake build Solution 2>&1 | tail -1
 
 if echo "$OUTPUT" | grep -qi "theorem statement.*do not match\|do not match\|statements.*differ\|typeAlphaEq.*false"; then
   echo "PASS: comparator correctly rejected the mutated Solution (statement mismatch)"

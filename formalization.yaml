@@ -29,9 +29,11 @@ sources:
     note: >-
       integral_inner_mderiv adapts Lemma 1.2.1, equation (1.30).
       mderiv_closable adapts Proposition 1.2.1.
-      Both are specialized to p = 2, an abstract Gaussian Banach space
-      (rather than classical Wiener space), and a bounded-C¹ core
-      (IsSmoothBounded) instead of the full smooth cylinder functional class.
+      Nualart works with an isonormal Gaussian process over a Hilbert
+      space. The Lean development realizes the Gaussian structure through
+      the first chaos of a Gaussian measure on a separable Banach space,
+      restricts to p = 2, and uses bounded C¹ Fréchet functionals with
+      uniformly bounded derivative instead of the smooth cylindrical class.
 
 status:
   scope: >-

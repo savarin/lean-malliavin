@@ -28,12 +28,11 @@ abstract Gaussian Banach space with a bounded-C¹ core.
 
 Closability of the Malliavin derivative (Nualart, Proposition 1.2.1) is the
 foundational estimate that enables extension of the derivative operator from
-smooth test functionals to the Sobolev space D^{1,2}. Every subsequent result
+smooth test functionals to the Sobolev space D^{1,2}. Many later constructions
 in Malliavin calculus — the Clark-Ocone representation, Stroock's formula,
-density estimates via the divergence operator — depends on this closure. To our
-knowledge this is the first machine-checked formalization of these estimates.
-The audience is researchers in stochastic analysis and the formalization
-community working on probability theory in Lean/Mathlib.
+density estimates via the divergence operator — depend on this closure. The
+audience is researchers in stochastic analysis and the formalization community
+working on probability theory in Lean/Mathlib.
 
 ## Trust boundary
 
