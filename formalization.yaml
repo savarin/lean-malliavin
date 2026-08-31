@@ -4,13 +4,14 @@ version: "v0.4"
 project:
   name: "lean-malliavin"
   description: >-
-    The Clark--Ocone representation theorem for Brownian functionals on an
-    abstract Gaussian Banach space, formalized in Lean 4 against Mathlib.
-    The proof library (52 files) builds from Cameron--Martin quasi-invariance
-    through the Wiener chaos decomposition and Itô isometry to the full
-    representation formula. ClarkOconeChallenge.lean (312 lines) states the
-    result using only Mathlib definitions; ClarkOconeSolution.lean bridges
-    via the extracted proof library.
+    Malliavin calculus on abstract Gaussian Banach spaces, formalized in
+    Lean 4 against Mathlib. The repository contains two Palomar entries:
+    (1) the registered Malliavin-core pair (integral_inner_mderiv,
+    mderiv_closable) via comparator.json, pinned at commit 29c57b3; and
+    (2) the Clark--Ocone capstone (PalomarClarkOcone.generated_clark_ocone)
+    via comparator-clark-ocone.json. The proof library (52 files) builds
+    from Cameron--Martin quasi-invariance through the Wiener chaos
+    decomposition and Itô isometry to the full representation formula.
   authors:
     - "Ezzeri Esa"
   responsible_maintainers:
@@ -105,17 +106,29 @@ automation:
 
 fidelity:
   divergences: >-
-    Nualart proves closability for every p ≥ 1 on smooth cylindrical random
-    variables over an isonormal Gaussian process. This formalization proves
-    the p = 2 criterion on a separable Banach space carrying a Gaussian
-    measure, using bounded C¹ Fréchet functionals with uniformly bounded
-    derivative and realizing the Cameron–Martin space as the first chaos.
-    The Clark--Ocone theorem is stated on the natural (generated, non-augmented)
-    filtration; textbooks state it under the usual conditions on an arbitrary
-    filtration. IsPreBrownianReal defines Brownian motion at the law level
-    (correct finite-dimensional distributions, no path continuity assumed).
-    The Sobolev space D^{1,2} is realized as the closure of the bounded-C¹
-    graph, not as an a priori defined Sobolev class.
+    Core (closability): Nualart proves closability for every p ≥ 1 on
+    smooth cylindrical random variables over an isonormal Gaussian process.
+    This formalization proves the p = 2 criterion on a separable Banach
+    space carrying a Gaussian measure, using bounded C¹ Fréchet functionals
+    with uniformly bounded derivative and realizing the Cameron--Martin
+    space as the first chaos.
+
+    Clark--Ocone: the formalization works on an abstract separable Gaussian
+    Banach space with an IsPreBrownianReal coordinate process (correct
+    finite-dimensional distributions, no path continuity assumed), rather
+    than starting from a path-space Brownian motion. Coordinates are given
+    by continuous linear functionals generating the ambient measurable
+    space, with a totality condition for the Brownian directions in
+    Cameron--Martin space. The theorem operates on the natural (generated,
+    non-augmented) filtration on nonneg time; textbooks state it under the
+    usual conditions on an arbitrary filtration. The Sobolev space D^{1,2}
+    is realized as the closure of a bounded-C¹ graph, not as an a priori
+    defined Sobolev class. The Itô integral is characterized existentially
+    by isometry, zero mean, elementary adapted increments, and martingale
+    representation. The formula holds in L², with time-section conditional
+    expectations for almost every positive time. No separate statement
+    about path continuity, completed/right-continuous augmented filtration,
+    or higher/lower Lᵖ variants is made.
 
 review:
   status: "agent-reviewed"
@@ -124,13 +137,17 @@ review:
     - "Claude Code (Anthropic)"
     - "Codex (OpenAI)"
   notes: >-
-    Clark--Ocone pair Comparator-verified locally on 2026-08-31 against
-    upstream leanprover/comparator at 8d84e67 using Lean's default kernel
-    (not NanoDa). Negative control confirmed (mutated conclusion correctly
-    rejected). Axiom audit: propext, Classical.choice, Quot.sound only.
-    The registered pair (integral_inner_mderiv, mderiv_closable) was
-    previously verified on 2026-08-29. Palomar injects its own protected
-    NanoDa configuration at submission time.
+    Core entry (PALOMAR-2026-08-29-000016): integral_inner_mderiv and
+    mderiv_closable verified by Palomar's protected dual-kernel run at
+    commit 29c57b3 via comparator.json. That immutable registered result
+    is unaffected by later commits.
+
+    Clark--Ocone entry: generated_clark_ocone Comparator-verified locally
+    on 2026-08-31 via comparator-clark-ocone.json using Lean's default
+    kernel and the development fake-Landrun wrapper (not Palomar's
+    protected environment). Negative control confirmed (mutated conclusion
+    correctly rejected). Axiom audit: propext, Classical.choice,
+    Quot.sound only. A protected NanoDa run remains pending.
 
 alignment:
   statements:
