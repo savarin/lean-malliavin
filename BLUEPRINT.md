@@ -79,9 +79,18 @@ carrying extra independent randomness would fail to span L².
 **Layer 6 — Hermite polynomials and totality.** Generalized Hermite
 polynomials of finite Brownian step sums (Wick powers) are shown to
 coincide with canonical multiple Wiener–Itô integrals of pure-power
-kernels. The mechanism is a two-step recurrence: order ≤ 1 is
-unconditional, and matching the recurrence at higher orders reduces
-the all-order stochastic identity to the ordinary Itô product rule.
+kernels. The mechanism is a Malliavin–Itô duality recursion: the
+Malliavin derivative of an order-n Wick power drops the order by one
+and tensors with the step kernel, so the inner product of a Wick power
+against an ordered Brownian increment chain peels off one factor per
+inductive step via the duality identity. This computes the pairing
+explicitly as n! times a product of one-dimensional inner products.
+The canonical pure-power integral has the same pairings by a direct
+kernel calculation. To conclude equality, ordered-box density shows
+that finite unions of positive ordered time boxes are measure-dense in
+the strict simplex, so ordered increment chains span a dense subspace
+of each homogeneous chaos. A difference functional vanishing on a
+dense set vanishes on the closure, giving equality at all orders.
 Combined with density of polynomials in finitely many Brownian
 coordinates and the algebraic-basis property of Hermite polynomials,
 this gives genuine totality of the concrete chaos tower, hence
@@ -132,9 +141,12 @@ every test vector and the integration operator is injective.
    A pre-Brownian process on a product space carrying extra
    independent randomness would fail to span L².
 
-5. **The Hermite recurrence-to-Itô-product reduction.** Collapses an
-   all-order stochastic identity to the ordinary Itô product rule.
-   The single hardest unconditional step in the entire proof.
+5. **The Malliavin–Itô duality recursion and ordered-box density.**
+   Identifies Wick powers with canonical pure-power integrals by
+   computing their pairings against ordered increment chains via
+   recursive application of the duality identity, then closing by
+   density of ordered boxes in each homogeneous chaos. The single
+   hardest unconditional step in the entire proof.
 
 6. **Extension along a dense isometry.** Used twice — the Wiener
    integral and the full Itô integral — as the generic mechanism for
@@ -168,9 +180,10 @@ every test vector and the integration operator is injective.
    textbook treatments that fix the canonical Wiener space from the
    start.
 
-4. **The Hermite recurrence is the bottleneck.** Everything at order
+4. **The duality recursion is the bottleneck.** Everything at order
    ≤ 1 is free. The entire content of "spanning" is concentrated in
-   one recurrence-matching identity at order ≥ 2.
+   the Malliavin–Itô duality recursion combined with ordered-box
+   density at order ≥ 2.
 
 5. **Predictable ≠ adapted, and it matters at one place.** The jump
    from fixed-time conditional expectation to predictable-σ-algebra
