@@ -1,7 +1,13 @@
 name = "lean-malliavin"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["Malliavin", "Challenge", "Solution"]
+defaultTargets = [
+  "Malliavin",
+  "Challenge",
+  "Solution",
+  "ClarkOconeChallenge",
+  "ClarkOconeSolution",
+]
 
 [[require]]
 name = "mathlib"
@@ -21,3 +27,9 @@ name = "Challenge"
 
 [[lean_lib]]
 name = "Solution"
+
+[[lean_lib]]
+name = "ClarkOconeChallenge"
+
+[[lean_lib]]
+name = "ClarkOconeSolution"

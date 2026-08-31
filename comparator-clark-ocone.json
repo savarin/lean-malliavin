@@ -1,0 +1,10 @@
+{
+  "challenge_module": "ClarkOconeChallenge",
+  "solution_module": "ClarkOconeSolution",
+  "theorem_names": [
+    "PalomarClarkOcone.predictable_le_prod",
+    "PalomarClarkOcone.generated_clark_ocone"
+  ],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}
