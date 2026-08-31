@@ -9,7 +9,7 @@ For a Gaussian measure on a separable Banach space whose coordinate
 functionals generate the measurable space: every square-integrable
 functional F has the representation
 
-    F = E[F] + ∫₀ᵀ E[DₜF | Fₜ] dBₜ
+    F = E[F] + ∫₀^∞ E[DₜF | Fₜ] dBₜ
 
 where D is the Malliavin derivative (the Fréchet derivative along
 Cameron–Martin directions, extended by graph closure), Fₜ is the

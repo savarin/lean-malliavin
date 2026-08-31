@@ -13,7 +13,6 @@ import Mathlib.Probability.Distributions.Gaussian.Fernique
 import Mathlib.Probability.Distributions.Gaussian.HasGaussianLaw.Basic
 import Mathlib.Probability.Moments.CovarianceBilinDual
 import Mathlib.Probability.Process.Predictable
-import Mathlib.Tactic.Recall
 /-!
 # Malliavin calculus through the Clark--Ocone formula
 

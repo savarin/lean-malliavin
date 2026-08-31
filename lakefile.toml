@@ -12,6 +12,7 @@ rev = "v4.33.0"
 weak.linter.mathlibStandardSet = true
 autoImplicit = false
 relaxedAutoImplicit = false
+linter.unusedVariables = true
 
 [[lean_lib]]
 name = "Malliavin"
@@ -21,3 +22,9 @@ name = "ClarkOconeChallenge"
 
 [[lean_lib]]
 name = "ClarkOconeSolution"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"

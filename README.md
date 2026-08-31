@@ -40,6 +40,13 @@ and martingale representation. The audience is researchers in
 stochastic analysis and the formalization community working on
 probability theory in Lean/Mathlib.
 
+The theorem operates on the natural (generated, non-augmented)
+filtration — textbooks state Clark--Ocone under the usual conditions
+on an arbitrary filtration. `IsPreBrownianReal` defines Brownian
+motion at the law level (correct finite-dimensional distributions,
+no path continuity assumed). The Sobolev space D^{1,2} is realized
+as the closure of the bounded-C¹ graph.
+
 For a detailed proof route in plain mathematics, see
 `BLUEPRINT.md`.
 
@@ -50,7 +57,8 @@ For a detailed proof route in plain mathematics, see
   explicitly — zero definition holes. Only the single advertised
   theorem proof is omitted.
 - `ClarkOconeSolution.lean` imports the completed proof development.
-- `comparator.json` lists one theorem and no definition holes.
+- `comparator-clark-ocone.json` lists one theorem
+  (`PalomarClarkOcone.generated_clark_ocone`) and no definition holes.
 - The proved declaration uses only `propext`, `Quot.sound`, and
   `Classical.choice`.
 
