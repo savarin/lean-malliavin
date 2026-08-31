@@ -60,8 +60,11 @@ via Fourier-analytic test functions.
 satisfying only a covariance axiom (not yet genuine Brownian motion),
 the simplex-symmetrization-iterated-integral machinery builds a
 Hilbert-sum decomposition L² = ⊕ₙ (order-n chaos), using only
-second-moment Gram-matrix identities. This is a purely algebraic
-construction at the law level.
+second-moment Gram-matrix identities. This construction is purely
+algebraic at the law level and requires only the covariance structure.
+Totality of the resulting tower — that the chaos ranges exhaust L² —
+is a separate condition requiring a σ-generation hypothesis: the
+process's coordinates must generate the ambient measurable space.
 
 **Layer 5 — Wiener chaos decomposition (concrete Brownian).** The
 abstract operators are identified with genuine iterated Itô integrals
@@ -71,10 +74,9 @@ closed range of the natural Itô integral — reducing "does the tower
 span L²?" to "is the natural Itô integral surjective?" (martingale
 representation).
 
-Totality of the tower requires a hypothesis the textbook usually
-hides: the process's coordinates must σ-generate the ambient
-measurable space. Without this, a process defined on a product space
-carrying extra independent randomness would fail to span L².
+The σ-generation hypothesis from Layer 4 enters here: without it,
+a process defined on a product space carrying extra independent
+randomness would fail to span L².
 
 **Layer 6 — Hermite polynomials and totality.** Generalized Hermite
 polynomials of finite Brownian step sums (Wick powers) are shown to

@@ -5,11 +5,10 @@ project:
   name: "lean-malliavin"
   description: >-
     Malliavin calculus on abstract Gaussian Banach spaces, formalized in
-    Lean 4 against Mathlib. The repository contains two Palomar entries:
-    (1) the registered Malliavin-core pair (integral_inner_mderiv,
-    mderiv_closable) via comparator.json, pinned at commit 29c57b3; and
-    (2) the Clark--Ocone capstone (PalomarClarkOcone.generated_clark_ocone)
-    via comparator-clark-ocone.json. The proof library (52 files) builds
+    Lean 4 against Mathlib. The repository contains two Comparator
+    configurations: one registered (core, via comparator.json, pinned at
+    commit 29c57b3) and one pending (Clark--Ocone, via
+    comparator-clark-ocone.json). The proof library (52 files) builds
     from Cameron--Martin quasi-invariance through the Wiener chaos
     decomposition and Itô isometry to the full representation formula.
   authors:
@@ -44,14 +43,13 @@ sources:
       - "David Nualart"
     type: "book"
     id: "10.1007/3-540-28329-3"
-    location: "Chapter 1, §1.3"
+    location: "Chapter 1, §1.3, Clark--Ocone formula (§1.3.4)"
     relationship: "adapts"
     author_endorsement: "not-contacted"
     note: >-
       generated_clark_ocone adapts the Clark--Ocone representation
-      theorem (Theorem 1.3.6). The formalization works on the natural
-      filtration of an abstract pre-Brownian process on a Gaussian
-      Banach space.
+      formula. The formalization works on the natural filtration of an
+      abstract pre-Brownian process on a Gaussian Banach space.
 
 status:
   scope: >-
@@ -149,6 +147,10 @@ review:
     correctly rejected). Axiom audit: propext, Classical.choice,
     Quot.sound only. A protected NanoDa run remains pending.
 
+    Human review (Ezzeri Esa): verified the Challenge theorem statement
+    against the source (Nualart, §1.3) and the author's dissertation.
+    Lean proof code produced by AI agents under the author's direction.
+
 alignment:
   statements:
     - source: "Nualart, Lemma 1.2.1, equation (1.30)"
@@ -165,7 +167,7 @@ alignment:
       note: >-
         Specialized to p = 2 on an abstract Gaussian Banach space with a
         bounded-C¹ core (IsSmoothBounded).
-    - source: "Nualart, Theorem 1.3.6 (Clark--Ocone)"
+    - source: "Nualart, §1.3, Clark--Ocone formula (§1.3.4)"
       lean: "PalomarClarkOcone.generated_clark_ocone"
       module: "ClarkOconeSolution"
       status: "proved"
