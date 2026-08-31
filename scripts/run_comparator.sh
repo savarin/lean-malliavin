@@ -15,4 +15,4 @@ if [[ -n "${FAKE_LANDRUN:-}" ]]; then
 fi
 
 COMPARATOR_LEAN4EXPORT="$LEAN4EXPORT" \
-lake env "$COMPARATOR" comparator.json
+lake env "$COMPARATOR" comparator-clark-ocone.json
