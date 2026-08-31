@@ -4,11 +4,13 @@ version: "v0.4"
 project:
   name: "lean-malliavin"
   description: >-
-    Gaussian integration by parts and closability of the Malliavin derivative
-    on an abstract Gaussian Banach space. Two compared theorems, zero
-    definition holes. Challenge.lean (225 lines) states both results using
-    only Mathlib definitions; Solution.lean bridges via definitional equality
-    to the extracted Malliavin proof library.
+    The Clark--Ocone representation theorem for Brownian functionals on an
+    abstract Gaussian Banach space, formalized in Lean 4 against Mathlib.
+    The proof library (52 files) builds from Cameron--Martin quasi-invariance
+    through the Wiener chaos decomposition and Itô isometry to the full
+    representation formula. ClarkOconeChallenge.lean (312 lines) states the
+    result using only Mathlib definitions; ClarkOconeSolution.lean bridges
+    via the extracted proof library.
   authors:
     - "Ezzeri Esa"
   responsible_maintainers:
@@ -39,11 +41,13 @@ sources:
 
 status:
   scope: >-
-    Two compared theorems (integral_inner_mderiv, mderiv_closable), zero
-    definition holes. Challenge.lean imports only Mathlib and constructs all
-    statement-level mathematics explicitly. Solution.lean repeats the
-    declaration block and proves both theorems via definitional equality with
-    the extracted Malliavin library.
+    The Clark--Ocone capstone (generated_clark_ocone) is staged in
+    ClarkOconeChallenge.lean (312 lines, zero definition holes) and
+    ClarkOconeSolution.lean; the comparator.json boundary switch is
+    pending. The registered Palomar submission (PALOMAR-2026-08-29-000016)
+    uses Challenge.lean / Solution.lean with two foundational results
+    (integral_inner_mderiv, mderiv_closable) that the capstone subsumes.
+    main_results below lists the registered pair.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms:
@@ -66,8 +70,11 @@ automation:
   methods:
     - method: "agent"
       models: ["Claude Fable (Anthropic)", "GPT 5.6 Sol (OpenAI)"]
-      framework: "Claude Code"
-      tool_setup: "Claude Code CLI with multi-agent formalization sessions"
+      framework: "Claude Code and Codex"
+      tool_setup: >-
+        Claude Code multi-agent formalization sessions produced the proof
+        library. Codex reviewed and verified the publication boundary and
+        Palomar Comparator configuration.
       cost:
         wall_time: "not tracked"
         spend_usd: "subscription-based"
@@ -86,9 +93,11 @@ fidelity:
     derivative and realizing the Cameron–Martin space as the first chaos.
 
 review:
-  status: "self-assessed"
+  status: "agent-reviewed"
   reviewers:
     - "Ezzeri Esa"
+    - "Claude Code (Anthropic)"
+    - "Codex (OpenAI)"
   notes: >-
     Two-theorem Comparator-verified locally against upstream
     leanprover/comparator at 8d84e67 using Lean's default kernel (not

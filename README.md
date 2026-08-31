@@ -1,98 +1,135 @@
 # lean-malliavin
 
-Gaussian integration by parts and closability of the Malliavin derivative on
-an abstract Gaussian Banach space, formalized in Lean 4 against Mathlib.
-Prepared for submission to [Palomar](https://palomar-registry.org).
+The Clark--Ocone representation theorem for Brownian functionals
+on an abstract Gaussian Banach space, formalized in Lean 4 against
+Mathlib. Prepared for submission to
+[Palomar](https://palomar-registry.org).
 
-## The theorems
+## Main results
 
-Two results form the Malliavin core:
+For a pre-Brownian process on a Gaussian Banach space whose coordinates
+generate the measurable space:
 
-**Gaussian integration by parts** (`integral_inner_mderiv`). For a smooth
-bounded functional `F` and Cameron–Martin vector `h`:
-`∫ ⟪DF, h⟫ dμ = ∫ F · h dμ`. This identity exposes the formal adjoint
-relation that drives the closability proof.
+- `generated_clark_ocone`: there exist a time realization of the closed
+  Malliavin derivative and a Brownian Itô isometry such that every
+  terminal L² variable has a stochastic-integral representation and the
+  predictable projection of the derivative recovers the conditional
+  expectations in the textbook Clark--Ocone identity.
 
-**Closability** (`mderiv_closable`). If smooth bounded functionals converge
-to zero in L² and their Malliavin derivatives converge in L²(H), the limit
-derivative is zero. This is the foundational estimate that makes the
-Malliavin derivative a closable operator, enabling its extension from smooth
-test functionals to the Sobolev space D^{1,2}.
+## Scope
 
-Both results adapt Chapter 1, §1.2 of Nualart's *The Malliavin Calculus and
-Related Topics* (2nd ed., Springer,
-[doi:10.1007/3-540-28329-3](https://doi.org/10.1007/3-540-28329-3)) to an
-abstract Gaussian Banach space with a bounded-C¹ core.
+The Clark--Ocone formula is the central representation theorem of
+Malliavin calculus. It says that any square-integrable functional of
+Brownian motion can be written as its expectation plus a stochastic
+integral of the conditional expectation of its Malliavin derivative —
+recovering a random variable from the rate at which it changes along
+Cameron--Martin directions. This connects the derivative calculus
+(closability, Sobolev spaces) to the integral calculus (Itô isometry,
+martingale representation) and is the gateway to hedging formulas,
+density estimates, and anticipating stochastic calculus.
 
-## Research interest
+The formalization works on a separable Banach space carrying a
+Gaussian measure whose coordinate functionals generate the measurable
+space — a hypothesis textbooks usually hide by fixing the canonical
+Wiener space. The proof constructs an abstract Hilbert-space contract
+(isometric integration, surjectivity, duality identity) and obtains
+the formula by Riesz uniqueness; all analytic difficulty lives in
+building one instance of this contract on the natural Brownian
+filtration, through the Wiener chaos decomposition, Itô isometry,
+and martingale representation. The audience is researchers in
+stochastic analysis and the formalization community working on
+probability theory in Lean/Mathlib.
 
-Closability of the Malliavin derivative (Nualart, Proposition 1.2.1) is the
-foundational estimate that enables extension of the derivative operator from
-smooth test functionals to the Sobolev space D^{1,2}. Many later constructions
-in Malliavin calculus — the Clark-Ocone representation, Stroock's formula,
-density estimates via the divergence operator — depend on this closure. The
-audience is researchers in stochastic analysis and the formalization community
-working on probability theory in Lean/Mathlib.
+For a detailed proof route in plain mathematics, see
+`BLUEPRINT.md`.
 
 ## Trust boundary
 
-- **Challenge.lean** (225 lines) imports only Mathlib. Every definition
-  needed by the theorem statements is given explicitly from Mathlib — there
-  are zero definition holes. Only the two advertised theorem proofs are
-  omitted (`sorry`).
-- **Solution.lean** repeats the same declaration block and imports the full
-  `Malliavin` proof library. The repeated objects are definitionally equal
-  to the library objects, so the two completed library theorems close the
-  Solution goals.
-- **comparator.json** lists two theorems and no definition holes.
+- `ClarkOconeChallenge.lean` (312 lines) imports only Mathlib.
+  Every definition needed by the theorem statement is given
+  explicitly — zero definition holes. Only the single advertised
+  theorem proof is omitted.
+- `ClarkOconeSolution.lean` imports the completed proof development.
+- `comparator.json` lists one theorem and no definition holes.
+- The proved declaration uses only `propext`, `Quot.sound`, and
+  `Classical.choice`.
 
-A mathematical reader can audit both statements by reading Challenge.lean
-alone (225 lines, Mathlib-only imports).
+## Proof architecture
 
-## Provenance
+```text
+Gaussian measure P on Banach space W
+     │
+     ├── Cameron–Martin space H (first chaos)
+     │         │
+     │         └── covariance embedding H → W
+     │
+     ├── Malliavin derivative DF (Fréchet along H)
+     │         │
+     │         ├── integration by parts
+     │         └── closability (graph closure)
+     │
+     ├── Wiener chaos decomposition
+     │         │
+     │         ├── Hermite polynomials
+     │         ├── multiple stochastic integrals
+     │         └── chaos–martingale representation
+     │
+     └── Brownian realization
+               │
+               ├── time derivative (H-valued → process)
+               ├── Itô isometry (isometric extension)
+               ├── elementary integration (indicator × adapted)
+               ├── martingale representation
+               │         │
+               │         └── every L² variable = E[·] + ∫
+               │
+               └── Clark–Ocone on closed graph
+                         │
+                         └── F = E[F] + ∫ E[D_t F | F_t] dB_t
+```
 
-The proof library (`Malliavin/`) contains three files (CameronMartin,
-CameronMartinTheorem, MalliavinDerivative) forming the dependency chain
-for both results.
+The proof library (`Malliavin/`) contains 52 files. The dependency chain
+runs: `CameronMartin` → `MalliavinDerivative` → `WienerChaos` →
+`BrownianClarkOconeCapstone`.
 
 ## Build and verify
 
-Requires Lean 4.33.0 and a Mathlib cache.
+Lean and Mathlib 4.33.0 are pinned.
 
 ```bash
 lake exe cache get
-lake build Challenge Solution
-```
-
-### Smoke check (elaboration + axiom audit)
-
-```bash
+lake build
 python3 scripts/check_boundary.py
 ```
 
-### Comparator (requires lean4export and comparator binaries)
+For a local Comparator smoke test:
 
 ```bash
 export COMPARATOR=/path/to/comparator
 export LEAN4EXPORT=/path/to/lean4export
+export FAKE_LANDRUN=/path/to/fake-landrun.sh  # macOS only
 scripts/run_comparator.sh
 ```
 
-Local comparator runs use Lean's default kernel, not NanoDa. Palomar injects
-its own protected NanoDa configuration at submission time.
-
-### Negative control
+A negative control script deliberately weakens the theorem and verifies
+that Comparator rejects the mutation:
 
 ```bash
-export COMPARATOR=/path/to/comparator
-export LEAN4EXPORT=/path/to/lean4export
 scripts/negative_control.sh
 ```
 
-## Axioms
+Palomar runs its own pinned Comparator, Landrun sandbox, and
+NanoDa kernel.
 
-`propext`, `Classical.choice`, `Quot.sound` — the standard Lean 4 axioms.
+## Historical submission
+
+The initial Palomar registration (PALOMAR-2026-08-29-000016) used
+`Challenge.lean` and `Solution.lean`, which submit two foundational
+results: `integral_inner_mderiv` (Gaussian integration by parts) and
+`mderiv_closable` (closability of the Malliavin derivative). These files
+remain in the repo as the historical submission boundary. The
+Clark--Ocone capstone subsumes both results.
 
 ## License
 
-Apache-2.0
+Apache-2.0.
